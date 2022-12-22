@@ -1,24 +1,32 @@
 {
-  "name": "@joejordan/foundry-random",
-  "description": "",
+  "name": "foundry-random",
+  "description": "Generate reliably random numbers using Foundry's FFI cheat code",
   "version": "1.0.0",
   "author": {
-    "name": "joejordan",
+    "name": "Joe Jordan",
     "url": "https://github.com/joejordan"
   },
+  "bugs": {
+    "url": "https://github.com/joejordan/foundry-random/issues"
+  },
+  "homepage": "https://github.com/joejordan/foundry-random/#readme",
   "devDependencies": {
-    "@commitlint/cli": "^17.2.0",
-    "@commitlint/config-conventional": "^17.2.0",
-    "commitizen": "^4.2.5",
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "commitizen": "^4.2.6",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.2",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "prettier-plugin-solidity": "^1.0.0",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "prettier-plugin-solidity": "^1.1.0",
     "rimraf": "^3.0.2",
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5"
   },
+  "files": [
+    "/src",
+    "CHANGELOG.md"
+  ],
   "keywords": [
     "blockchain",
     "ethereum",
@@ -26,10 +34,13 @@
     "foundry",
     "smart-contracts",
     "solidity",
-    "template"
+    "random"
   ],
   "packageManager": "yarn@3.2.4",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joejordan/foundry-random"
+  },
   "resolutions": {
     "solhint/@solidity-parser/parser": "^0.14.5"
   },
@@ -37,7 +48,7 @@
     "clean": "rimraf cache out",
     "lint": "yarn lint:sol && yarn prettier:check",
     "lint:sol": "solhint \"{src,test}/**/*.sol\"",
-    "postinstall": "husky install",
+    "postinstall": "",
     "prettier:check": "prettier --check \"**/*.{json,md,sol,yml}\"",
     "prettier:write": "prettier --write \"**/*.{json,md,sol,yml}\""
   }
