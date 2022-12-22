@@ -3,6 +3,7 @@
 [profile.default]
 auto_detect_solc = false
 bytecode_hash = "none"
+ffi = true
 fuzz = { runs = 256 }
 gas_reports = ["*"]
 libs = ["lib"]
