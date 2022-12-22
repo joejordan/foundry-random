@@ -1,3 +1,5 @@
 @prb/test/=lib/prb-test/src/
 forge-std/=lib/forge-std/src/
 src/=src/
+crambit/=lib/CramBit/src/
+solidity-bytes-utils=lib/solidity-bytes-utils/contracts
