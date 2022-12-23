@@ -1,7 +1,7 @@
 {
   "name": "foundry-random",
   "description": "Generate reliably random numbers using Foundry's FFI cheat code",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Joe Jordan",
     "url": "https://github.com/joejordan"
