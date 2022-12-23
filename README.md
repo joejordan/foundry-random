@@ -1,4 +1,4 @@
-# Foundry Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Foundry][foundry-badge]][foundry] [![License: MIT][license-badge]][license]
+# Foundry Random [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Foundry][foundry-badge]][foundry] [![License: MIT][license-badge]][license]
 
 [gitpod]: https://gitpod.io/#https://github.com/joejordan/foundry-random
 [gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
@@ -9,182 +9,112 @@
 [license]: https://opensource.org/licenses/MIT
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
-A Foundry-based template for developing Solidity smart contracts, with sensible defaults.
+***Generate reliably random numbers using Foundry's FFI cheat code.***
 
-## What's Inside
+More than once now I have needed a reliably random number generator while using Foundry. Unfortunately, as of this writing, there is no `vm.random()` cheatcode included with this otherwise excellent development tool.
 
-- [Forge](https://github.com/foundry-rs/foundry/blob/master/forge): compile, test, fuzz, debug and deploy smart
-  contracts
-- [PRBTest](https://github.com/paulrberg/prb-test): modern collection of testing assertions and logging utilities
-- [Forge Std](https://github.com/foundry-rs/forge-std): collection of helpful contracts and cheatcodes for testing
-- [Solhint](https://github.com/protofire/solhint): code linter
-- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
+This project fills that gap by utilizing the FFI cheatcode to launch `cast wallet new`, a tool included with Foundry to quickly generate a new random keypair, and returning the generated private key as a `bytes32` value to the user. We have also included a few additional creature comforts via the inclusion of several plug-and-play random number generator functions to make life easier.
 
-## Getting Started
+### Example Use Case
 
-Click the [`Use this template`](https://github.com/paulrberg/foundry-template/generate) button at the top of the page to
-create a new repository with this repo as the initial state.
+The original use case I had for this was seeding a smart contract deploy script with random attribute values that would remain constant for the life of the contract. Similar seeding functionality could also be useful for certain types of tests.
 
-Or, if you prefer to install the template manually:
+## Installation
+
+### Foundry
+
+First, run the install step:
 
 ```sh
-forge init my-project --template https://github.com/paulrberg/foundry-template
-cd my-project
-yarn install # install solhint and prettier and other goodies
+forge install --no-commit joejordan/foundry-random
 ```
 
-If this is your first time with Foundry, check out the
-[installation](https://github.com/foundry-rs/foundry#installation) instructions.
-
-## Features
-
-This template builds upon the frameworks and libraries mentioned above, so for details about their specific features,
-please consult their respective documentations.
-
-For example, for Foundry, you can refer to the [Foundry Book](https://book.getfoundry.sh/). You might be in particular
-interested in reading the [Writing Tests](https://book.getfoundry.sh/forge/writing-tests.html) guide.
-
-### Sensible Defaults
-
-This template comes with sensible default configurations in the following files:
+Then, add this to your `remappings.txt` file:
 
 ```text
-├── .commitlintrc.yml
-├── .editorconfig
-├── .gitignore
-├── .prettierignore
-├── .prettierrc.yml
-├── .solhintignore
-├── .solhint.json
-├── .yarnrc.yml
-├── foundry.toml
-└── remappings.txt
+foundry-random=lib/foundry-random/src/
 ```
-
-### GitHub Actions
-
-This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
-request made to the `main` branch.
-
-You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
-
-### Conventional Commits
-
-This template enforces the [Conventional Commits](https://www.conventionalcommits.org/) standard for git commit
-messages. This is a lightweight convention that creates an explicit commit history, which makes it easier to write
-automated tools on top of.
-
-### Git Hooks
-
-This template uses [Husky](https://github.com/typicode/husky) to run automated checks on commit messages, and
-[Lint Staged](https://github.com/okonet/lint-staged) to automatically format the code with Prettier when making a git
-commit.
-
-## Writing Tests
-
-To write a new test contract, you start by importing [PRBTest](https://github.com/paulrberg/prb-test) and inherit from
-it in your test contract. PRBTest comes with a pre-instantiated [cheatcodes](https://book.getfoundry.sh/cheatcodes/)
-environment accessible via the `vm` property. You can also use
-[console.log](https://book.getfoundry.sh/faq?highlight=console.log#how-do-i-use-consolelog), whose logs you can see in
-the terminal output by adding the `-vvvv` flag.
-
-This template comes with an example test contract [Foo.t.sol](./test/Foo.t.sol).
 
 ## Usage
 
-Here's a list of the most frequently needed commands.
+Import the library into your Solidity contract, i.e.
 
-### Build
-
-Build the contracts:
-
-```sh
-$ forge build
+```solidity
+import { FoundryRandom } from "foundry-random/FoundryRandom.sol";
 ```
 
-### Clean
+The cleanest usage is probably to include it as an inherited contract on your Foundry Test or Script contract, as follows:
 
-Delete the build artifacts and cache directories:
 
-```sh
-$ forge clean
+```solidity
+contract FoundryRandomTest is PRBTest, FoundryRandom {
+
+   function setUp() public {
+      // solhint-disable-previous-line no-empty-blocks
+   }
+
+   function testRandomNumber() public {
+      uint256 randomNum;
+      
+      // generate a random number between 0 and 255
+      randomNum = randomNumber(type(uint8).max);
+      assertLte(randomNum, type(uint8).max);
+
+      // generate a random number between 10 and 100
+      randomNum = randomNumber(10, 100);
+      assertGte(randomNum, 10);
+      assertLte(randomNum, 100);
+   }
+}
+
 ```
 
-### Compile
+Check out the [tests](https://github.com/joejordan/foundry-random/blob/main/test/FoundryRandom.t.sol) for more usage examples.
 
-Compile the contracts:
+## Contribute
 
-```sh
-$ forge build
+Contributions are welcome! [Open](https://github.com/joejordan/foundry-random/issues/new) an issue or submit a PR. There is always room for improvement. The instructions below will walk you through setting up for contributions.
+
+### Pre-Requisites
+
+You will need the following software on your machine:
+
+- [Git](https://git-scm.com/downloads)
+- [Foundry](https://github.com/foundry-rs/foundry)
+- [Node.js](https://nodejs.org/en/download/)
+- [Yarn](https://yarnpkg.com/)
+
+### Set Up
+
+Clone this repository:
+
+```bash
+$ git clone https://github.com/joejordan/foundry-random.git
 ```
 
-### Coverage
+Then, inside the project's directory, run this to install dependencies:
 
-Get a test coverage report:
-
-```sh
-$ forge coverage
+```bash
+$ yarn install
 ```
 
-### Deploy
+Your environment should now be ready for your improvements.
 
-Deploy to Anvil:
+## Security
 
-```sh
-$ forge script script/Foo.s.sol:FooScript --fork-url http://localhost:8545 \
- --broadcast --private-key $PRIVATE_KEY
-```
+This code has not been professionally audited by any third parties. If you include this codebase or parts of it in a professional audit, please let me know via [Twitter Direct Message](https://twitter.com/JJordan) for inclusion in this documentation.
 
-For instructions on how to deploy to a testnet or mainnet, check out the
-[Solidity Scripting tutorial](https://book.getfoundry.sh/tutorials/solidity-scripting.html).
+If you discover any security issues with this codebase, please report them via [Twitter Direct Message](https://twitter.com/JJordan).
 
-### Format
+### Disclaimer
 
-Format the contracts with Prettier:
+This is experimental software and is provided on an "as is" basis. No expressed or implied warranties are granted of any kind. I will not be liable for any loss, direct or indirect, related to the use or misuse of this codebase.
 
-```sh
-$ yarn prettier
-```
+## Acknowledgements
 
-### Gas Usage
-
-Get a gas report:
-
-```sh
-$ forge test --gas-report
-```
-
-### Lint
-
-Lint the contracts:
-
-```sh
-$ yarn lint
-```
-
-### Test
-
-Run the tests:
-
-```sh
-$ forge test
-```
-
-## Notes
-
-1. Foundry piggybacks off [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) to manage dependencies.
-   There's a [guide](https://book.getfoundry.sh/projects/dependencies.html) about how to work with dependencies in the
-   book.
-2. You don't have to create a `.env` file, but filling in the environment variables may be useful when debugging and
-   testing against a mainnet fork.
-
-## Related Efforts
-
-- [abigger87/femplate](https://github.com/abigger87/femplate)
-- [cleanunicorn/ethereum-smartcontract-template](https://github.com/cleanunicorn/ethereum-smartcontract-template)
-- [foundry-rs/forge-template](https://github.com/foundry-rs/forge-template)
-- [FrankieIsLost/forge-template](https://github.com/FrankieIsLost/forge-template)
+- [Gonçalo Sá](https://twitter.com/GNSPS) for his fantastic [solidity-bytes-utils](https://github.com/GNSPS/solidity-bytes-utils) library.
+- All of the contributors to the [Foundry toolkit](https://github.com/foundry-rs/foundry) for bringing Solidity development to the next level.
 
 ## License
 
-[MIT](./LICENSE.md) © Paul Razvan Berg
+foundry-random is released under the [MIT License](./LICENSE.md).
