@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import { BytesLib } from "solidity-bytes-utils/BytesLib.sol";
-import { CramBit } from "crambit/CramBit.sol";
+import { BytesLib } from "../lib/solidity-bytes-utils/contracts/BytesLib.sol";
+import { CramBit } from "../lib/CramBit/src/CramBit.sol";
 
-import { FFICast } from "src/FFICast.sol";
+import { FFICast } from "./FFICast.sol";
 
 /**
  * @title FoundryRandom

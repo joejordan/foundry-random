@@ -3,8 +3,8 @@ pragma solidity ^0.8.4;
 
 import { PRBTest } from "@prb/test/PRBTest.sol";
 
-import { BytesLib } from "solidity-bytes-utils/BytesLib.sol";
-import { CramBit } from "crambit/CramBit.sol";
+import { BytesLib } from "../lib/solidity-bytes-utils/contracts/BytesLib.sol";
+import { CramBit } from "../lib/CramBit/src/CramBit.sol";
 
 /**
  * @title FFICast

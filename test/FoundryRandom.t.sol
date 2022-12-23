@@ -4,10 +4,10 @@ pragma solidity >=0.8.4;
 import { console2 } from "forge-std/console2.sol";
 import { PRBTest } from "@prb/test/PRBTest.sol";
 
-import { BytesLib } from "solidity-bytes-utils/BytesLib.sol";
-import { CramBit } from "crambit/CramBit.sol";
+import { BytesLib } from "../lib/solidity-bytes-utils/contracts/BytesLib.sol";
+import { CramBit } from "../lib/CramBit/src/CramBit.sol";
 
-import { FoundryRandom } from "src/FoundryRandom.sol";
+import { FoundryRandom } from "../src/FoundryRandom.sol";
 
 /// @notice tests of our Foundry random number generators.
 contract FoundryRandomTest is PRBTest, FoundryRandom {

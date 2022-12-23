@@ -5,9 +5,9 @@ import { console2 } from "forge-std/console2.sol";
 import { PRBTest } from "@prb/test/PRBTest.sol";
 
 import { BytesLib } from "solidity-bytes-utils/BytesLib.sol";
-import { CramBit } from "crambit/CramBit.sol";
+import { CramBit } from "../lib/CramBit/src/CramBit.sol";
 
-import { FFICast } from "src/FFICast.sol";
+import { FFICast } from "../src/FFICast.sol";
 
 /// @notice basic functionality test of our FFICast project
 contract FFICastTest is PRBTest {
