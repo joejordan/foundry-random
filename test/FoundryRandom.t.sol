@@ -11,7 +11,6 @@ import { FoundryRandom } from "src/FoundryRandom.sol";
 
 /// @notice tests of our Foundry random number generators.
 contract FoundryRandomTest is PRBTest, FoundryRandom {
-
     function setUp() public {
         // solhint-disable-previous-line no-empty-blocks
     }
@@ -19,7 +18,7 @@ contract FoundryRandomTest is PRBTest, FoundryRandom {
     /// @notice test the random number generator so that it returns values within the users' desired range
     function testFoundryRandomNumber() public {
         uint256 randomNum;
-        
+
         randomNum = randomNumber(type(uint8).max);
         assertLte(randomNum, type(uint8).max);
 
@@ -142,10 +141,7 @@ contract FoundryRandomTest is PRBTest, FoundryRandom {
         console2.log("Remaining Bytes:");
         console2.logBytes32(_remainingBytes32);
 
-        (randomUint, _remainingBytes32) = extractNumberFromBytes(
-            100_000_000_000_000_000_000_000,
-            _remainingBytes32
-        );
+        (randomUint, _remainingBytes32) = extractNumberFromBytes(100_000_000_000_000_000_000_000, _remainingBytes32);
         console2.log("Random Uint (Max 100_000_000_000_000_000_000_000) = ", randomUint);
         console2.log("Remaining Bytes:");
         console2.logBytes32(_remainingBytes32);
